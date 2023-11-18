@@ -1,0 +1,9 @@
+.wine-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.wine-table th,
+.wine-table td {
+    border: 1px solid #dddddd
+}

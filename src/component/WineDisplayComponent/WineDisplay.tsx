@@ -4,8 +4,8 @@ import { calculateGamma, calculateMean, calculateMedian, calculateMode, convertT
 import './WineDisplay.css';
 import WineTable from '../Tablecomponent/WineTable';
 
-
 const WineDisplay: React.FC = () => {
+  // State variables to store wine data and statistics maps for flavanoids and gamma
   const [wineData, setWineData] = useState<WineData[] | null>(null);
   const [flavanoidsMap, setFlavanoidsMap] = useState<Map<number, { data: number[]; mean: number; median: number; mode: number }>>(
     new Map()
@@ -14,6 +14,7 @@ const WineDisplay: React.FC = () => {
     new Map()
   );
 
+  // Fetch wine data on component mount
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,11 +28,13 @@ const WineDisplay: React.FC = () => {
     fetchData();
   }, []);
 
+  // Calculate statistics using memoization when wineData changes
   useMemo(() => {
     if (wineData) {
       const newFlavanoidsMap = new Map<number, { data: number[]; mean: number; median: number; mode: number }>();
       const newGammaMap = new Map<number, { data: number[]; mean: number; median: number; mode: number }>();
 
+      // Iterate over wine data to calculate statistics
       wineData.forEach((winePoint: WineData) => {
         const alcohol = winePoint.Alcohol;
 
@@ -57,10 +60,12 @@ const WineDisplay: React.FC = () => {
     }
   }, [wineData]);
 
+  // Render loading message while data is being fetched
   if (!wineData) {
     return <div>Loading...</div>;
   }
 
+  // Render WineTable components for Flavanoids and Gamma
   return (
     <div>
       <WineTable measure="Flavanoids" dataMap={flavanoidsMap} />
